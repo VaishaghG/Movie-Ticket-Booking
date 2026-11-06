@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | CinePass Streaming & Ticketing</title>
+    <meta name="description" content="Sign in to your CinePass account to reserve cinema tickets, explore movie showtimes, and manage bookings.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=cinema_v5">
+</head>
+<body class="auth-page">
+    <main class="login-screen" aria-labelledby="login-title">
+        <section class="login-card" id="login-card-container">
+            <a class="login-brand" href="index.html" aria-label="CinePass Home">
+                <span class="brand-icon" aria-hidden="true">🎬</span>
+                <span class="brand-text">CinePass</span>
+            </a>
+            
+            <nav class="auth-tabs" aria-label="Authentication Options">
+                <a href="login.html" class="auth-tab-btn active">Sign In</a>
+                <a href="signup.html" class="auth-tab-btn">Sign Up</a>
+            </nav>
+            
+            <p class="eyebrow">PREMIUM CINEMA DISCOVERY</p>
+            <h1 id="login-title">Sign In</h1>
+            <p class="login-subtitle">Access your digital passes, reserved seats, and IMAX premieres.</p>
+            
+            <!-- Global Form Alert Container -->
+            <div id="login-alert" class="login-error" role="alert" style="display: none;"></div>
+            
+            <form id="login-form" novalidate>
+                <!-- Email Field with Validation Feedback -->
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="name@example.com" autocomplete="email" required>
+                    <div id="email-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <!-- Password Field with Visibility Toggle & Feedback -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label class="form-label" for="login-password">Password</label>
+                    </div>
+                    <div class="password-input-wrap">
+                        <input type="password" id="login-password" class="form-control" placeholder="••••••••" autocomplete="current-password" minlength="4" required>
+                        <button type="button" class="btn-toggle-pw" id="btn-toggle-login-pw" aria-label="Show password" title="Toggle password visibility">
+                            👁️
+                        </button>
+                    </div>
+                    <div id="password-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <!-- Remember Me Option -->
+                <div class="login-options-row">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="login-remember" checked>
+                        <span>Remember me</span>
+                    </label>
+                </div>
+                
+                <button type="submit" id="btn-login-submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;">
+                    Sign In to Continue 🎟️
+                </button>
+            </form>
+            
+            <p class="auth-switch-prompt">
+                Don't have an account? 
+                <a href="signup.html" id="link-goto-signup" class="auth-switch-link">Sign Up</a>
+            </p>
+            
+            <div class="demo-login-box">
+                <div><span>✨ Quick Demo Accounts</span></div>
+                <small>Select a pre-registered demo user for instant login:</small>
+                <div class="demo-user-pills">
+                    <button type="button" class="demo-user-btn" onclick="fillDemoUser('alex.mercer@example.com', 'password123')">
+                        Alex Mercer
+                    </button>
+                    <button type="button" class="demo-user-btn" onclick="fillDemoUser('sarah.connor@example.com', 'password123')">
+                        Sarah Connor
+                    </button>
+                    <button type="button" class="demo-user-btn" onclick="fillDemoUser('bruce.wayne@example.com', 'password123')">
+                        Bruce Wayne
+                    </button>
+                    <button type="button" class="demo-user-btn" onclick="fillDemoUser('admin@cinepass.com', 'admin123')" style="border-color: rgba(229, 9, 20, 0.5); color: #ffd740;">
+                        👑 Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- On-Screen JSON Console Output Panel -->
+            <section class="json-console-panel" id="auth-json-console" aria-label="Console Output">
+                <div class="json-console-header">
+                    <div class="json-console-title">
+                        <span>📟 Console Output (JSON)</span>
+                    </div>
+                    <div class="json-console-actions">
+                        <span class="json-status-pill status-idle" id="json-status-badge">READY</span>
+                        <button type="button" class="json-console-btn" id="btn-clear-json-console">Clear</button>
+                    </div>
+                </div>
+                <div class="json-console-body">
+                    <pre><code id="json-console-content">// Enter credentials and submit to view live JSON response...</code></pre>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/login.js?v=stream_ui_v10"></script>
+</body>
+</html>

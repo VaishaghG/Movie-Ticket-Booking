@@ -1,0 +1,10 @@
+com\movieticketbooking\service\AuthServiceImplTest$LoginTests.class
+com\movieticketbooking\service\AuthServiceImplTest$IsEmailRegisteredTests.class
+com\movieticketbooking\service\AuthServiceImplTest$RegisterTests.class
+com\movieticketbooking\service\AuthServiceImplTest.class
+com\movieticketbooking\service\BookingServiceImplTest$GetBookingsTests.class
+com\movieticketbooking\service\BookingServiceImplTest$CancelBookingTests.class
+com\movieticketbooking\dto\AuthResponseTest.class
+com\movieticketbooking\model\enums\SeatTypeTest.class
+com\movieticketbooking\service\BookingServiceImplTest.class
+com\movieticketbooking\service\BookingServiceImplTest$BookTicketsTests.class

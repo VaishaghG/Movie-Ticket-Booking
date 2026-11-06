@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePass | Cinematic Movie Discovery & Ticket Booking</title>
+    <meta name="description" content="Cinematic streaming-style movie discovery and cinema ticket booking platform. Browse trending premieres, IMAX showtimes, real-time seat availability, and digital cinema passes.">
+    
+    <!-- Google Fonts: Outfit (Display) & Inter (UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=cinema_v2">
+</head>
+<body>
+
+    <!-- Header Navigation Bar (Fixed & Transparent with Blur) -->
+    <header class="navbar" id="main-navbar">
+        <div class="container nav-container">
+            <!-- Left: CinePass Brand Logo -->
+            <div class="brand" id="nav-brand" onclick="App.showView('catalog')" role="button" tabindex="0" aria-label="CinePass Home">
+                <span class="brand-icon">🎬</span>
+                <span class="brand-text">CinePass</span>
+            </div>
+            
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" onclick="App.toggleMobileMenu()" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Center: Navigation Menu -->
+            <nav class="nav-center-menu" id="primary-nav-menu">
+                <ul class="nav-menu">
+                    <li><a class="nav-link active" id="nav-movies" onclick="App.showView('catalog'); App.closeMobileMenu();">Movies</a></li>
+                    <li><a class="nav-link" id="nav-theatres" onclick="App.showView('theatres'); App.closeMobileMenu();">Theatres</a></li>
+                    <li><a class="nav-link" id="nav-bookings" onclick="App.showView('my-bookings'); App.closeMobileMenu();">My Bookings</a></li>
+                    <li><a class="nav-link admin-badge-btn" id="nav-admin" onclick="App.showView('admin'); App.closeMobileMenu();">Admin Portal</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right: Search, User Profile, Logout -->
+            <div class="nav-right-tools">
+                <!-- Expandable Search -->
+                <div class="nav-search-wrap">
+                    <button class="nav-search-btn" id="btn-toggle-search" onclick="App.toggleNavbarSearch()" aria-label="Search movies">
+                        🔍
+                    </button>
+                    <div class="nav-search-box" id="nav-search-box">
+                        <input type="text" id="movie-search-input" class="nav-search-input" placeholder="Search movies, genres..." oninput="App.onSearchInput()">
+                    </div>
+                </div>
+
+                <!-- User Profile & Logout -->
+                <div class="user-profile" id="user-profile">
+                    <a class="btn btn-secondary btn-sm" href="login.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Container -->
+    <main class="main-content-wrap">
+
+        <!-- ================================================================== -->
+        <!-- VIEW 1: MOVIE DISCOVERY & STREAMING CATALOG (DEFAULT)             -->
+        <!-- ================================================================== -->
+        <section id="view-catalog">
+            
+            <!-- 1. FULL-WIDTH CINEMATIC HERO (75-80vh) -->
+            <div class="hero-streaming-wrap" id="hero-streaming-wrap">
+                <!-- Hero Backdrop Image -->
+                <img id="hero-backdrop-img" class="hero-backdrop-img" src="https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=1600&auto=format&fit=crop" alt="Featured Movie Backdrop">
+                
+                <!-- Multi-Directional Gradient Vignette Overlay -->
+                <div class="hero-vignette-overlay"></div>
+                
+                <!-- Left-Aligned Hero Content -->
+                <div class="container hero-content-container">
+                    <div class="hero-streaming-content">
+                        <div class="hero-badge-tag">Featured Premiere</div>
+                        <h1 class="hero-main-title" id="hero-title">The Dark Knight</h1>
+                        
+                        <div class="hero-metadata-row">
+                            <span class="rating-badge" id="hero-rating">★ 9.0</span>
+                            <span class="meta-divider">•</span>
+                            <span id="hero-genre">Action</span>
+                            <span class="meta-divider">•</span>
+                            <span id="hero-duration">152 mins</span>
+                            <span class="meta-divider">•</span>
+                            <span id="hero-lang">English</span>
+                            <span class="meta-divider">•</span>
+                            <span class="hero-format-tag">IMAX 4K LASER DOLBY</span>
+                        </div>
+                        
+                        <p class="hero-synopsis-text" id="hero-desc">
+                            When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.
+                        </p>
+                        
+                        <div class="hero-cta-group">
+                            <button class="btn btn-primary btn-lg" id="hero-book-btn" onclick="App.openMovieDetails(4)">
+                                🎟️ Book Tickets
+                            </button>
+                            <button class="btn btn-secondary btn-lg" id="hero-details-btn" onclick="App.openMovieDetails(4)">
+                                ℹ️ Movie Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Body Inside Standard Centered Container -->
+            <div class="container">
+                <!-- 2. TRENDING NOW SECTION WITH POSTER CAROUSEL -->
+                <div class="section-discovery-wrap">
+                    <div class="section-header-trending">
+                        <div class="trending-badge-title">
+                            <span class="trending-arrow">↗</span> Trending Now
+                        </div>
+                        <ul class="discovery-subtabs">
+                            <li><button class="subtab-btn active" onclick="App.setDiscoveryTab('popular')">Popular</button></li>
+                            <li><button class="subtab-btn" onclick="App.setDiscoveryTab('premieres')">Premieres</button></li>
+                            <li><button class="subtab-btn" onclick="App.setDiscoveryTab('recent')">Recently Added</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Horizontal Poster Carousel -->
+                    <div class="carousel-outer-wrap">
+                        <button class="carousel-scroll-btn prev" onclick="App.scrollCarousel('left')" aria-label="Scroll left">‹</button>
+                        
+                        <div class="carousel-track" id="trending-carousel-container">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                        
+                        <button class="carousel-scroll-btn next" onclick="App.scrollCarousel('right')" aria-label="Scroll right">›</button>
+                    </div>
+                </div>
+
+                <!-- 3. COMPACT GENRE FILTER BAR -->
+                <div class="genre-nav-bar" id="genre-pills-container">
+                    <button class="genre-pill-compact active" onclick="App.filterGenre('ALL')">All Genres</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('ACTION')">Action</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('SCI_FI')">Sci-Fi</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('DRAMA')">Drama</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('COMEDY')">Comedy</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('HORROR')">Horror</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('THRILLER')">Thriller</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('ANIMATION')">Animation</button>
+                    <button class="genre-pill-compact" onclick="App.filterGenre('ROMANCE')">Romance</button>
+                </div>
+
+                <!-- 4. NOW SHOWING MOVIES GRID (6-Columns Desktop) -->
+                <div class="movies-section-header">
+                    <div>
+                        <h2 class="section-title">Movies in Theatres</h2>
+                        <p class="section-subtitle">Select any premiere to view auditoriums, showtimes, and reserve your seats.</p>
+                    </div>
+                    <div class="sort-wrap">
+                        <label for="movie-sort-select" class="visually-hidden">Sort movies by</label>
+                        <select id="movie-sort-select" class="form-control form-control-sm" onchange="App.onSortChange()">
+                            <option value="rating">★ Top Rated</option>
+                            <option value="title">🔤 Title (A-Z)</option>
+                            <option value="duration">⏱️ Duration</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Main Poster Grid -->
+                <div class="catalog-poster-grid" id="movies-container">
+                    <!-- Movie cards rendered dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================== -->
+        <!-- VIEW 2: THEATRES DIRECTORY                                        -->
+        <!-- ================================================================== -->
+        <section id="view-theatres" class="view-standalone container" style="display: none;">
+            <div class="section-title-wrap">
+                <div>
+                    <h2 class="section-title">Partner Cinemas & Multiplexes</h2>
+                    <p class="section-subtitle">Discover premium partner auditoriums equipped with IMAX, 4K Laser Projection, and Dolby Atmos surround sound.</p>
+                </div>
+            </div>
+            <div class="theatres-grid" id="theatres-container">
+                <!-- Theatre cards loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- ================================================================== -->
+        <!-- VIEW 3: MY BOOKINGS                                               -->
+        <!-- ================================================================== -->
+        <section id="view-my-bookings" class="view-standalone container" style="display: none;">
+            <div class="section-title-wrap">
+                <div>
+                    <h2 class="section-title">My Cinema Reservations</h2>
+                    <p class="section-subtitle">Review your digital boarding passes, showtimes, seat reservations, and booking statuses.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="App.loadBookings()">🔄 Refresh Bookings</button>
+            </div>
+            <div id="bookings-list-container">
+                <!-- Bookings loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- ================================================================== -->
+        <!-- VIEW 4: ADMIN DASHBOARD & CONCURRENCY ARENA                       -->
+        <!-- ================================================================== -->
+        <section id="view-admin" class="view-standalone container" style="display: none;">
+            <div class="section-title-wrap">
+                <div>
+                    <h2 class="section-title">Admin Management Portal</h2>
+                    <p class="section-subtitle">System metrics, cinema scheduling, database management, and thread safety collision arena.</p>
+                </div>
+            </div>
+
+            <!-- Stats Overview Cards -->
+            <div class="admin-stats-grid">
+                <div class="stat-card">
+                    <span class="stat-card-title">🎬 Movies in Database</span>
+                    <span class="stat-card-value" id="stat-movies">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-card-title">🏛️ Partner Theatres</span>
+                    <span class="stat-card-value" id="stat-theatres">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-card-title">🕒 Scheduled Shows</span>
+                    <span class="stat-card-value" id="stat-shows">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-card-title">🎟️ Total Reservations</span>
+                    <span class="stat-card-value" id="stat-bookings">0</span>
+                </div>
+            </div>
+
+            <!-- Admin Sub-tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" onclick="App.switchAdminTab('movies')">🎬 Manage Movies</button>
+                <button class="admin-tab-btn" onclick="App.switchAdminTab('shows')">🕒 Schedule Shows</button>
+                <button class="admin-tab-btn" onclick="App.switchAdminTab('theatres')">🏛️ Manage Theatres</button>
+                <button class="admin-tab-btn" onclick="App.switchAdminTab('bookings')">📋 All Bookings</button>
+                <button class="admin-tab-btn" onclick="App.switchAdminTab('concurrency')">⚡ Concurrency Lab</button>
+            </div>
+
+            <!-- Admin Tab 1: Movies -->
+            <div id="admin-tab-movies">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.25rem;">
+                    <button class="btn btn-primary btn-sm" onclick="App.openAddMovieModal()">+ Add New Movie</button>
+                </div>
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Poster</th>
+                                <th>Title</th>
+                                <th>Genre</th>
+                                <th>Rating</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-movies-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Tab 2: Shows -->
+            <div id="admin-tab-shows" style="display: none;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.25rem;">
+                    <button class="btn btn-primary btn-sm" onclick="App.openAddShowModal()">+ Schedule New Show</button>
+                </div>
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Show ID</th>
+                                <th>Movie</th>
+                                <th>Theatre</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Base Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-shows-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Tab 3: Theatres -->
+            <div id="admin-tab-theatres" style="display: none;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.25rem;">
+                    <button class="btn btn-primary btn-sm" onclick="App.openAddTheatreModal()">+ Add Theatre</button>
+                </div>
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cinema Name</th>
+                                <th>Location</th>
+                                <th>Total Capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-theatres-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Tab 4: Bookings -->
+            <div id="admin-tab-bookings" style="display: none;">
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Movie & Theatre</th>
+                                <th>Seats</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-bookings-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Tab 5: Concurrency Arena -->
+            <div id="admin-tab-concurrency" style="display: none;">
+                <div class="concurrency-box">
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.35rem;">⚡ Concurrency & Thread-Safety Collision Arena</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                            Simulate two simultaneous customer requests (Customer Thread A vs Customer Thread B) racing at the exact same millisecond to reserve the same seat. Demonstrates JVM synchronization and atomic database update locks.
+                        </p>
+                    </div>
+
+                    <div class="concurrency-controls-grid">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Select Scheduled Show:</label>
+                            <select id="concurrency-show-select" class="form-control" onchange="App.onConcurrencyShowChange()"></select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Select Target Available Seat:</label>
+                            <select id="concurrency-seat-select" class="form-control"></select>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" id="run-concurrency-btn" onclick="App.triggerConcurrencyTest()">
+                                ⚡ Fire Simultaneous Collision Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Thread Arena Results Grid -->
+                    <div class="arena-grid">
+                        <div class="customer-thread-card" id="card-thread-a">
+                            <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">👤 Customer Thread A</div>
+                            <div style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Simulated Payload: Sarah Connor (Thread #1)</div>
+                            <div id="status-thread-a" style="font-size: 0.95rem; font-weight: 600;">Standby for test trigger...</div>
+                        </div>
+
+                        <div class="customer-thread-card" id="card-thread-b">
+                            <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">👤 Customer Thread B</div>
+                            <div style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Simulated Payload: John Wick (Thread #2)</div>
+                            <div id="status-thread-b" style="font-size: 0.95rem; font-weight: 600;">Standby for test trigger...</div>
+                        </div>
+                    </div>
+
+                    <!-- Monospace Server Terminal Logs -->
+                    <pre class="log-terminal" id="concurrency-terminal">> Java Multithreading Concurrency Terminal Ready. Select a show and seat above to begin simulation.</pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ====================================================================== -->
+    <!-- MODALS SECTION                                                         -->
+    <!-- ====================================================================== -->
+
+    <!-- MODAL 1: MOVIE DETAILS & SHOW SELECTION -->
+    <div class="modal-backdrop" id="modal-movie-details">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-movie-details')" aria-label="Close modal">✕</button>
+            <div id="movie-details-body">
+                <!-- Injected dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CINEMA SEAT SELECTION -->
+    <div class="modal-backdrop" id="modal-seat-selection">
+        <div class="modal-content modal-content-wide">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-seat-selection')" aria-label="Close modal">✕</button>
+            
+            <!-- Progression Stepper -->
+            <div class="booking-stepper">
+                <div class="step-item completed">
+                    <div class="step-bubble">✓</div>
+                    <span class="step-label">Show</span>
+                </div>
+                <div class="step-item active">
+                    <div class="step-bubble">2</div>
+                    <span class="step-label">Seats</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-bubble">3</div>
+                    <span class="step-label">Details</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-bubble">4</div>
+                    <span class="step-label">Pass</span>
+                </div>
+            </div>
+
+            <div id="seat-selection-header" style="margin-bottom: 1.5rem;">
+                <!-- Show title, theatre, time -->
+            </div>
+
+            <!-- Cinema Screen Bar -->
+            <div class="screen-container">
+                <div class="cinema-screen"></div>
+                <div class="screen-text">ALL EYES ON SCREEN</div>
+            </div>
+
+            <!-- Seat Legend -->
+            <div class="seat-legend">
+                <div class="legend-item">
+                    <span class="seat-preview available"></span> Available
+                </div>
+                <div class="legend-item">
+                    <span class="seat-preview selected"></span> Selected
+                </div>
+                <div class="legend-item">
+                    <span class="seat-preview booked"></span> Booked
+                </div>
+                <div class="legend-item">
+                    <span class="seat-preview premium-legend"></span> Recliner (Row E)
+                </div>
+            </div>
+
+            <!-- Seat Matrix Grid -->
+            <div class="seat-grid-wrapper" id="seat-grid-container">
+                <!-- Dynamically rendered rows A..E -->
+            </div>
+
+            <!-- Summary Bar -->
+            <div class="booking-summary-bar">
+                <div class="summary-details">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">Selected Seats:</div>
+                    <div class="summary-seats" id="summary-seat-numbers">None selected</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">Total Amount:</div>
+                        <div class="summary-total" id="summary-total-price">₹0.00</div>
+                    </div>
+                    <button class="btn btn-gold btn-lg" id="btn-proceed-checkout" onclick="App.openCustomerModal()" disabled>
+                        Proceed to Checkout →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: CUSTOMER DETAILS & CHECKOUT -->
+    <div class="modal-backdrop" id="modal-customer-checkout">
+        <div class="modal-content modal-content-compact">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-customer-checkout')" aria-label="Close modal">✕</button>
+            
+            <!-- Stepper -->
+            <div class="booking-stepper">
+                <div class="step-item completed">
+                    <div class="step-bubble">✓</div>
+                    <span class="step-label">Show</span>
+                </div>
+                <div class="step-item completed">
+                    <div class="step-bubble">✓</div>
+                    <span class="step-label">Seats</span>
+                </div>
+                <div class="step-item active">
+                    <div class="step-bubble">3</div>
+                    <span class="step-label">Details</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-bubble">4</div>
+                    <span class="step-label">Pass</span>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.6rem;">Contact & Checkout</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Enter your contact details to generate your digital cinema boarding pass.</p>
+            
+            <form id="checkout-form" onsubmit="App.handleBookingSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="cust-name">Full Name *</label>
+                    <input type="text" id="cust-name" class="form-control" placeholder="e.g. Sarah Connor" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="cust-email">Email Address *</label>
+                    <input type="email" id="cust-email" class="form-control" placeholder="e.g. sarah@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="cust-phone">Phone Number *</label>
+                    <input type="tel" id="cust-phone" class="form-control" placeholder="e.g. 9876543210" required>
+                </div>
+
+                <div class="checkout-summary-box">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.6rem;">
+                        <span style="color: var(--text-muted);">Show:</span>
+                        <span id="checkout-summary-show" style="font-weight: 600; text-align: right;">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.6rem;">
+                        <span style="color: var(--text-muted);">Selected Seats:</span>
+                        <span id="checkout-summary-seats" style="font-weight: 700; color: var(--accent-gold);">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 800; border-top: 1px solid var(--border-subtle); padding-top: 0.6rem;">
+                        <span>Payable Total:</span>
+                        <span id="checkout-summary-amount" style="color: #ffffff;">₹0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" id="btn-confirm-booking" style="width: 100%;">
+                    🎟️ Confirm & Book Tickets
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: BOOKING CONFIRMATION & DIGITAL BOARDING PASS -->
+    <div class="modal-backdrop" id="modal-ticket-confirmation">
+        <div class="modal-content modal-content-medium">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-ticket-confirmation')" aria-label="Close modal">✕</button>
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2.8rem; display: inline-block;">🎉</span>
+                <h2 style="font-size: 2rem; margin-top: 0.3rem;">Booking Confirmed!</h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Your cinema seats are successfully reserved and stored in the database.
+                </p>
+            </div>
+
+            <!-- Ticket Stub Card -->
+            <div class="ticket-container" id="printable-ticket">
+                <div class="ticket-stub">
+                    <div class="ticket-header">
+                        <div>
+                            <span class="ticket-super-badge">CINEMA BOARDING PASS</span>
+                            <h3 id="ticket-movie-title">Movie Title</h3>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="font-size: 0.75rem; opacity: 0.9; font-weight: 600;">BOOKING #</span>
+                            <div style="font-weight: 900; font-size: 1.25rem;" id="ticket-booking-id">000000</div>
+                        </div>
+                    </div>
+                    <div class="ticket-body">
+                        <div class="ticket-info-grid">
+                            <div>
+                                <div class="ticket-field-label">Cinema / Theatre</div>
+                                <div class="ticket-field-value" id="ticket-theatre">Theatre Name</div>
+                            </div>
+                            <div>
+                                <div class="ticket-field-label">Date & Time</div>
+                                <div class="ticket-field-value" id="ticket-datetime">2026-09-03 | 19:00</div>
+                            </div>
+                            <div>
+                                <div class="ticket-field-label">Customer</div>
+                                <div class="ticket-field-value" id="ticket-customer">Customer Name</div>
+                            </div>
+                            <div>
+                                <div class="ticket-field-label">Reserved Seats</div>
+                                <div class="ticket-field-value" id="ticket-seats" style="color: var(--accent-gold);">A1, A2</div>
+                            </div>
+                            <div>
+                                <div class="ticket-field-label">Total Amount Paid</div>
+                                <div class="ticket-field-value" id="ticket-amount">₹500.00</div>
+                            </div>
+                            <div>
+                                <div class="ticket-field-label">Status</div>
+                                <div class="ticket-field-value" style="color: var(--accent-emerald);">● CONFIRMED</div>
+                            </div>
+                        </div>
+                        <div class="ticket-qr">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=CinePassTicket" alt="Ticket QR">
+                            <div class="ticket-barcode-num" id="ticket-qr-code">PASS-9821</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.75rem; flex-wrap: wrap;">
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Boarding Pass</button>
+                <button class="btn btn-primary" onclick="App.closeModal('modal-ticket-confirmation'); App.showView('catalog');">
+                    🍿 Book Another Movie
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: ADMIN ADD/EDIT MOVIE -->
+    <div class="modal-backdrop" id="modal-admin-movie">
+        <div class="modal-content modal-content-medium">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-admin-movie')">✕</button>
+            <h3 id="admin-movie-modal-title" style="margin-bottom: 1.5rem; font-size: 1.6rem;">Add New Movie</h3>
+            <form id="admin-movie-form" onsubmit="App.handleSaveMovie(event)">
+                <input type="hidden" id="admin-movie-id">
+                <div class="form-group">
+                    <label class="form-label">Movie Title *</label>
+                    <input type="text" id="admin-m-title" class="form-control" required placeholder="e.g. Dune: Part Two">
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Genre *</label>
+                        <select id="admin-m-genre" class="form-control" required>
+                            <option value="ACTION">Action</option>
+                            <option value="SCI_FI">Sci-Fi</option>
+                            <option value="DRAMA">Drama</option>
+                            <option value="COMEDY">Comedy</option>
+                            <option value="HORROR">Horror</option>
+                            <option value="THRILLER">Thriller</option>
+                            <option value="ANIMATION">Animation</option>
+                            <option value="ROMANCE">Romance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Language *</label>
+                        <input type="text" id="admin-m-language" class="form-control" value="English" required>
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Duration (minutes) *</label>
+                        <input type="number" id="admin-m-duration" class="form-control" value="120" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">IMDb Rating (0.0 - 10.0) *</label>
+                        <input type="number" step="0.1" id="admin-m-rating" class="form-control" value="8.0" min="0" max="10" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Poster Image URL *</label>
+                    <input type="url" id="admin-m-poster" class="form-control" required placeholder="https://images.unsplash.com/...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Synopsis / Description *</label>
+                    <textarea id="admin-m-desc" class="form-control" rows="3" required placeholder="Brief storyline..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Save Movie to Database</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 6: ADMIN SCHEDULE SHOW -->
+    <div class="modal-backdrop" id="modal-admin-show">
+        <div class="modal-content modal-content-medium">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-admin-show')">✕</button>
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.6rem;">Schedule New Show</h3>
+            <form id="admin-show-form" onsubmit="App.handleSaveShow(event)">
+                <div class="form-group">
+                    <label class="form-label">Movie *</label>
+                    <select id="admin-s-movie" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Theatre *</label>
+                    <select id="admin-s-theatre" class="form-control" required></select>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Date *</label>
+                        <input type="date" id="admin-s-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Time *</label>
+                        <input type="time" id="admin-s-time" class="form-control" value="18:30" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Base Ticket Price (₹) *</label>
+                    <input type="number" step="10" id="admin-s-price" class="form-control" value="250.00" min="50" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Schedule Show & Generate Seats</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 7: ADMIN ADD THEATRE -->
+    <div class="modal-backdrop" id="modal-admin-theatre">
+        <div class="modal-content modal-content-compact">
+            <button class="modal-close-btn" onclick="App.closeModal('modal-admin-theatre')">✕</button>
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.6rem;">Add Partner Theatre</h3>
+            <form id="admin-theatre-form" onsubmit="App.handleSaveTheatre(event)">
+                <div class="form-group">
+                    <label class="form-label">Theatre Name *</label>
+                    <input type="text" id="admin-t-name" class="form-control" required placeholder="e.g. Cinepolis IMAX">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location / Address *</label>
+                    <input type="text" id="admin-t-location" class="form-control" required placeholder="e.g. Phoenix Mall, Downtown">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Seats Capacity</label>
+                    <input type="number" id="admin-t-seats" class="form-control" value="40" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Add Partner Theatre</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Area -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/api.js?v=cinema_v2"></script>
+    <script src="js/app.js?v=cinema_v2"></script>
+</body>
+</html>

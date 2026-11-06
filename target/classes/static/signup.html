@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | CinePass Streaming & Ticketing</title>
+    <meta name="description" content="Create your CinePass account to reserve tickets, view movie showtimes, and book seats seamlessly.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=cinema_v4">
+</head>
+<body class="auth-page">
+    <main class="login-screen" aria-labelledby="signup-title">
+        <section class="login-card" id="signup-card-container">
+            <a class="login-brand" href="index.html" aria-label="CinePass Home">
+                <span class="brand-icon" aria-hidden="true">🎬</span>
+                <span class="brand-text">CinePass</span>
+            </a>
+            
+            <nav class="auth-tabs" aria-label="Authentication Options">
+                <a href="login.html" class="auth-tab-btn">Sign In</a>
+                <a href="signup.html" class="auth-tab-btn active">Sign Up</a>
+            </nav>
+            
+            <p class="eyebrow">JOIN THE CINEMA EXPERIENCE</p>
+            <h1 id="signup-title">Create Account</h1>
+            <p class="login-subtitle">Sign up to reserve tickets, unlock IMAX premieres, and manage bookings.</p>
+            
+            <div id="signup-alert" class="login-error" role="alert" style="display: none;"></div>
+            
+            <form id="signup-form" novalidate>
+                <div class="form-group">
+                    <label class="form-label" for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" class="form-control" placeholder="e.g. John Doe" autocomplete="name" required minlength="2">
+                    <div id="name-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" class="form-control" placeholder="name@example.com" autocomplete="email" required>
+                    <div id="signup-email-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-phone">Phone Number</label>
+                    <input type="tel" id="signup-phone" class="form-control" placeholder="e.g. 9876543210" autocomplete="tel" required pattern="[0-9+ -]{7,15}">
+                    <div id="phone-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">Password</label>
+                    <div class="password-input-wrap">
+                        <input type="password" id="signup-password" class="form-control" placeholder="At least 6 characters" autocomplete="new-password" minlength="6" required>
+                        <button type="button" class="btn-toggle-pw" id="btn-toggle-signup-pw" aria-label="Show password" title="Toggle password visibility">
+                            👁️
+                        </button>
+                    </div>
+                    <div id="signup-pw-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-confirm-password">Confirm Password</label>
+                    <div class="password-input-wrap">
+                        <input type="password" id="signup-confirm-password" class="form-control" placeholder="Repeat password" autocomplete="new-password" minlength="6" required>
+                        <button type="button" class="btn-toggle-pw" id="btn-toggle-confirm-pw" aria-label="Show confirm password" title="Toggle password visibility">
+                            👁️
+                        </button>
+                    </div>
+                    <div id="signup-confirm-feedback" class="field-feedback" aria-live="polite"></div>
+                </div>
+                
+                <button type="submit" id="btn-signup-submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.75rem;">
+                    Complete Registration 🍿
+                </button>
+            </form>
+            
+            <p class="auth-switch-prompt">
+                Already have an account? 
+                <a href="login.html" class="auth-switch-link">Sign In</a>
+            </p>
+
+            <!-- On-Screen JSON Console Output Panel -->
+            <section class="json-console-panel" id="signup-json-console" aria-label="Console Output">
+                <div class="json-console-header">
+                    <div class="json-console-title">
+                        <span>📟 Console Output (JSON)</span>
+                    </div>
+                    <div class="json-console-actions">
+                        <span class="json-status-pill status-idle" id="signup-json-status-badge">READY</span>
+                        <button type="button" class="json-console-btn" id="btn-clear-signup-json">Clear</button>
+                    </div>
+                </div>
+                <div class="json-console-body">
+                    <pre><code id="signup-json-console-content">// Fill registration form and submit to view live JSON response...</code></pre>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/signup.js?v=stream_ui_v10"></script>
+</body>
+</html>
